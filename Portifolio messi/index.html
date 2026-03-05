@@ -1,0 +1,37 @@
+const scoreElement = document.getElementById('score');
+let score = 0;
+
+const keys = { 
+    'd': 0, 
+    'f': 1, 
+    'j': 2, 
+    'k': 3 
+};
+
+// Dentro do seu event listener de tecla:
+window.addEventListener('keydown', (e) => {
+    const key = e.key.toLowerCase();
+    const lane = keys[key];
+
+    if (lane !== undefined) {
+        notes.forEach((note, index) => {
+            if (note.lane === lane) {
+                const dist = Math.abs(note.y - 540); // Centro da zona de acerto
+
+                if (dist < 15) { 
+                    // ACERTO CRÍTICO
+                    score += 50;
+                    renderFlash("#fff"); // Efeito de brilho
+                } else if (dist < 45) { 
+                    // ACERTO NORMAL
+                    score += 10;
+                }
+
+                if (dist < 45) {
+                    notes.splice(index, 1);
+                    scoreElement.innerText = score; // Atualiza contador na direita
+                }
+            }
+        });
+    }
+});
